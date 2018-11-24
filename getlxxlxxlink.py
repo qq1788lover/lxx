@@ -9,22 +9,23 @@ def getlink(listpage):
     videolink = ["http://zhs.lxxlxx.com"+i.get("href") for  i in kk1]
     for i in videolink:
         getvideolink(i)
-
+    
 def getvideolink(ss):
         res1 = requests.get(ss)
         res1.encoding = 'utf-8'
         soup1 = BeautifulSoup(res1.text, "html.parser")
-        #time.sleep(1)
         name = soup1.find(class_="contenthead").h1.text
         print(name)
         gg = soup1.find_all(class_="video")
-        scripturl = "http://m4.player.a.lx.7mao.club" + (gg[0].script.get("src"))
+        scripturl = "http://m4.player.a.lx.7mao.club/10_mByjd" + (gg[0].script.get("src"))
+                    # "http://m4.player.a.lx.7mao.club/10_mByjd/vjs/8660.js"
         res2 = requests.get(scripturl)
         soup2 = BeautifulSoup(res2.text, "html.parser")
         dd = str(soup2.html).replace('''document.writeln("''',"").replace('''");''',"")
         soup3 = BeautifulSoup(dd, "html.parser")
         sss = soup3.find(name="video")
         link = str(sss.source.get("src")).replace("\\'","")
+        print(link)
         c.execute("INSERT or IGNORE INTO yazhou VALUES (?,?,?)", (name,link,"0"))
         conn.commit()
 
@@ -85,9 +86,10 @@ if __name__ == '__main__':
         c.execute(comm)
         conn.commit()
     '''
+
     lis = ["yazhou","ouzhou","alabo","lading","feizhou","jinfa","heizong","hongzong","lesbian","duzi","threesomes","cartoons","amateur","gangjiao","lamei","juru","jutun","yanshe","koujiao","cosplay","qinglv","zhongchu","youqu","qunjiao","jiudian","neiyi","keai","ziwei","shunv","gaochao","yewai","public","zipai","chaopen","siwa","striptease","shaonv","kongjie","toukui","zhibo","wife","yujia"]
     for i in lis:
-        for j in range(1,10):
+        for j in range(1,1000):
             url = eval(i)+str(j)+"/"
             if j==1:
                 #print(url[:-3])
@@ -101,5 +103,6 @@ if __name__ == '__main__':
                 except:
                     break
             #print(url)
+        break
     conn.close()
 
